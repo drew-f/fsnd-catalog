@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-11 col-md-offset-1">
+            <h1>Are you sure you want to Delete the Category: {{category.name}}?</h1>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-1">
+            <form role="form" action="{{url_for('delete_category', category_id=category.id)}}" method="post" name="deletecategory">
+                <button type="submit" class="btn btn-default delete" id="submit">Delete Category</button>
+            </form>
+            <a href="{{url_for('show_category', category_id=category.id)}}"><button class="btn btn-default" id="cancel">Cancel</button></a>
+        </div>
+    </div>
+{% endblock %}

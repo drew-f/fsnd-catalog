@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+{% block body %}
+    <h1>{{book.title}}</h1>
+    <hr>
+    {% if session['user_id'] == book.owner_id %}
+    <a href="{{url_for('edit_book', book_id=book.id)}}">
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>Edit Book
+        </button>
+    </a>
+    <a href="{{url_for('delete_book', book_id=book.id)}}">
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>Delete Book
+        </button>
+    </a>
+    {% endif %}
+    <div class="col-md-3 col-sm-3">
+        {% if book.image %}
+        <img  class="img-responsive" src="{{book.image}}" alt="{{book.title}}">
+        {% endif %}
+    </div>
+    <div class="col-md-1 col-sm-1"></div>
+    <div class="col-md-8 col-sm-8">
+        <strong>Author: </strong>{{book.author}}<br/>
+        <strong>ISBN: </strong>{{book.isbn}}<br/>
+        <strong>Category: </strong>{{book.category.name}}<br/>
+        <strong>Description: </strong>{% for line in book.description.splitlines() %}
+            {{ line }}<br/>
+            {% endfor %}
+    </div>
+{% endblock %}

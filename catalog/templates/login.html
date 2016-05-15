@@ -1,0 +1,44 @@
+{% extends "main.html" %}
+{% block body %}
+<h1>Login</h1>
+<hr>
+<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+<script>
+    function start() {
+        gapi.load('auth2', function() {
+            auth2 = gapi.auth2.init({
+                client_id: '884849084231-17alq6af0ce4r2oboo8v60vlp7dhl4d1.apps.googleusercontent.com'
+            });
+        });
+    }
+
+function googleSignIn() {
+    auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);
+}
+
+function signInCallback(authResult) {
+    if (authResult['code']) {}
+    $.ajax({
+        type: 'POST',
+        url: '/connect?state={{STATE}}',
+        processData: false,
+        data: authResult['code'],
+        contentType: 'application/octet-stream; charset=utf-8',
+        success: function(result) {
+            if (result) {
+                $('#result').html("Logged in. Redirecting to previous page...");
+                setTimeout(function(){
+                    window.location.href = document.referrer
+                }, 300);
+            } else if (authResult['error']) {
+                console.log('There was an error: ' + authResult['error']);
+            }
+        }
+    });
+}
+</script>
+<div id="login">
+    <button class="btn btn-default" onclick="googleSignIn();">Sign in with Google</button>
+</div>
+<div id="result"></div>
+{% endblock %}

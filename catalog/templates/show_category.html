@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+{% block body %}
+    <h1>{{category.name}}</h1>
+    <hr>
+    {% if session['user_id'] %}
+    <a href="{{url_for('edit_category', category_id=category.id)}}">
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-pencil"></span>Edit Category
+        </button>
+    </a>
+    {% if not books %}
+    <a href="{{url_for('delete_category', category_id=category.id)}}">
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-trash"></span>Delete Category
+        </button>
+    </a>
+    {% endif %}
+    <a href="{{url_for('new_book', category_id=category.id)}}">
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-book"></span>Add Book
+        </button>
+    </a>
+    {% endif %}
+    {% for book in books %}
+    <div>
+        <a href="{{url_for('show_book', book_id=book.id)}}"><h4>{{book.title}}</h4></a>
+        Written by: <strong>{{book.author}}</strong>
+    </div>
+    {% endfor %}
+{% endblock %}

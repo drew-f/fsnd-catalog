@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% block body %}
+<h1>Categories</h1>
+<hr>
+    {% if session['user_id'] %}
+    <a href="{{url_for('new_category')}}">
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-bookmark"></span>Add Category
+        </button>
+    </a>
+    {% endif %}
+    {% for category in categories %}
+    <a href="{{url_for('show_category', category_id=category.id)}}">
+        <div class="row">
+            <div class="col-md-10">
+                <h3>{{ category.name }}</h3>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+{% endblock %}
